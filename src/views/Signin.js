@@ -107,19 +107,18 @@ const renderTextField = ({ input: { value, onChange }, label, meta: { touched, e
 )
 
 const InputWrap = (props) => (
-    <Button
-        variant="contained" 
-        disableFocusRipple
+    <div
         style={{
             width: "100%",
             background: "white",
             borderRadius: "50px",
+            padding: 16,
             paddingLeft: 32,
             paddingRight: 32,
             marginBottom: 16
         }} >
         {props.children}
-    </Button>
+    </div>
 )
   
 const MaterialUiForm = props => {

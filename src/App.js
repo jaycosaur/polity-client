@@ -80,7 +80,7 @@ class App extends Component {
           <MuiThemeProvider theme={theme}>
               <PopOverModel />
               <AuthView isSignedIn={this.props.isSignedIn} loginFlow={this.props.loginFlow}/>
-              {this.props.isSignedIn&&user&&<Intercom appID="fbz8pjg0" {...user}/>}
+              {(this.props.isSignedIn&&user)?<Intercom appID="fbz8pjg0" {...user}/>:<Intercom appID="fbz8pjg0"/>}
           </MuiThemeProvider>
         </ConnectedRouter>
       );

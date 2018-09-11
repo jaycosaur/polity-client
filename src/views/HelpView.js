@@ -140,7 +140,7 @@ export default class HelpView extends React.Component {
                 </CardContent>
             </div>
             <Grid container spacing={16} style={{padding: 16, background: "white", minHeight: "80vh"}}>
-                <Grid item xs={3}>
+                <Grid item xs={12} md={3}>
                     <Fade in={this.state.transition}>
                         <List component="nav" subheader={<ListSubheader component="div">Help Categories</ListSubheader>}>
                             <ListItem button onClick={()=>this.selectFilter("PRODUCT")}>
@@ -164,7 +164,7 @@ export default class HelpView extends React.Component {
                         </List>
                     </Fade>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={12} md={9}>
                     <Typography variant="display1" marginBottom>{this.state.filter?keyToName[this.state.filter]:"Showing All"}</Typography>
                     <Divider style={{marginBottom: 16, marginTop: 16}}/>
                     {FAQData.filter(i=>this.state.filter?i.category===this.state.filter:true).map((i,j)=>(

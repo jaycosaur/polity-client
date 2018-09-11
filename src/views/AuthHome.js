@@ -20,6 +20,9 @@ import HeaderIcon from '@material-ui/icons/ViewCompact'
 const styles = (theme) => ({
     root: {
         padding: theme.spacing.unit*2,
+        display: "flex",
+        flewWrap: "wrap",
+        overflow: "auto",
         [theme.breakpoints.down('sm')]:{
             padding: 0,
             width: "100%"
@@ -101,32 +104,32 @@ class HomeView extends React.Component {
                         </div>
                     )}
                 
-                {organisationId&&<Grid container spacing={isWidthUp('sm', this.props.width)?16:0} className={classes.root}>
-                    <Grid item sm={12} md={4}>
+                {organisationId&&<Grid container spacing={isWidthUp('md', this.props.width)?16:0} className={classes.root} style={{paddingTop: !isWidthUp('md', this.props.width)&&16}}>
+                    <Grid item sm={12} md={4} style={{height: "100%"}}>
+                        {isWidthUp('md', this.props.width)&&<Fade in={mounted}>
+                            <PilotCard square={!isWidthUp('md', this.props.width)} isMobile={!isWidthUp('md', this.props.width)}/>
+                        </Fade>}
                         <Fade in={mounted}>
-                            <PilotCard square={!isWidthUp('sm', this.props.width)}/>
+                            <ProjectOverview isMobile={!isWidthUp('md', this.props.width)} />
                         </Fade>
                         <Fade in={mounted}>
-                            <ProjectOverview square={!isWidthUp('sm', this.props.width)} />
-                        </Fade>
-                        <Fade in={mounted}>
-                            <DueWeeklyTasks square={!isWidthUp('sm', this.props.width)}/>
+                            <DueWeeklyTasks isMobile={!isWidthUp('md', this.props.width)}/>
                         </Fade>
                     </Grid>
                     <Grid item sm={12} md={8}>
-                        <LatestNews square={!isWidthUp('sm', this.props.width)}/>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <div className={classes.disclaimer}>
-                            <Typography variant="subheading" gutterBottom align="center" color="primary">DISCLAIMER</Typography>
-                            <Typography variant="caption" color="textSecondary">
-                                The Polibase (<a href="https://www.polibase.com.au" target="_blank">www.polibase.com.au</a>) is a resource for publicly available information. Nothing on this website or via any link should be used as a source of legal advice. This website does not create a legal relationship between the user and Examine Group Pty Ltd. Nor is this website intended to do so. 
-                                Please do not act or solely rely on any public information in this website. The latest versions of legislation and regulation are available on the Australian government websites referenced on each website. Updates on regulation, legislation or compliance obligations are mere guidance and do not substantiate a legal relationship. Every update should be double-checked with the respective government authority’s website and authorised producer of information. 
-                                All information is of a general nature only and must never been taken as specific or complete advice on legal or regulatory matters. Users of ‘Polibase’ should make their own independent inquiries before acting on any information and Polibase does not accept any liability on obfuscated legal or government documents. 
-                            </Typography>
-                        </div>
+                        <LatestNews isMobile={!isWidthUp('md', this.props.width)}/>
                     </Grid>
                 </Grid>}
+                <Grid item xs={12}>
+                    <div className={classes.disclaimer}>
+                        <Typography variant="subheading" gutterBottom align="center" color="primary">DISCLAIMER</Typography>
+                        <Typography variant="caption" color="textSecondary">
+                            The Polibase (<a href="https://www.polibase.com.au" target="_blank">www.polibase.com.au</a>) is a resource for publicly available information. Nothing on this website or via any link should be used as a source of legal advice. This website does not create a legal relationship between the user and Examine Group Pty Ltd. Nor is this website intended to do so. 
+                            Please do not act or solely rely on any public information in this website. The latest versions of legislation and regulation are available on the Australian government websites referenced on each website. Updates on regulation, legislation or compliance obligations are mere guidance and do not substantiate a legal relationship. Every update should be double-checked with the respective government authority’s website and authorised producer of information. 
+                            All information is of a general nature only and must never been taken as specific or complete advice on legal or regulatory matters. Users of ‘Polibase’ should make their own independent inquiries before acting on any information and Polibase does not accept any liability on obfuscated legal or government documents. 
+                        </Typography>
+                    </div>
+                </Grid>
             </AuthViewRouteContainer>)
         }
     }

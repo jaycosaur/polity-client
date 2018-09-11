@@ -199,7 +199,7 @@ class NavBar extends React.Component {
                                 open={this.state.menuOpen}
                                 onClose={this.handleClose}
                             >
-                                {organisation.id&&<Link to="/myaccount"><MenuItem onClick={this.handleClose}>MY ACCOUNT</MenuItem></Link>}
+                                {organisation.organisationId&&<Link to="/myaccount"><MenuItem onClick={this.handleClose}>MY ACCOUNT</MenuItem></Link>}
                                 <MenuItem onClick={this.props.doSignOut}>LOGOUT</MenuItem>
                             </Menu>
                             </div>)}

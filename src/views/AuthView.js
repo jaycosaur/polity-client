@@ -13,7 +13,7 @@ import ListIcon from '@material-ui/icons/List'
 import HomeIcon from '@material-ui/icons/Home'
 import GroupIcon from '@material-ui/icons/Group'
 import Collapse from '@material-ui/core/Collapse';
-import StarIcon from '@material-ui/icons/Star';
+import StorageIcon from '@material-ui/icons/Storage';
 import BookmarksIcon from '@material-ui/icons/CollectionsBookmark';
 import HistoryIcon from '@material-ui/icons/History';
 import DraftsIcon from '@material-ui/icons/Drafts';
@@ -95,7 +95,7 @@ const styles = theme => ({
         zIndex: 1,
         overflow: 'hidden',
         position: 'relative',
-        display: 'flex',
+        display: 'flex'
     },
     flex: {
       flex: 1,
@@ -117,7 +117,8 @@ const styles = theme => ({
         position: "absolute",
         flexGrow: 1,
         width: "100%",
-        padding: theme.spacing.unit
+        padding: theme.spacing.unit,
+        background: theme.palette.background.default
     },
     nested: {
         paddingLeft: theme.spacing.unit * 8,
@@ -138,7 +139,7 @@ const styles = theme => ({
     toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: theme.palette.background.paper,
         minWidth: 0, // So the Typography noWrap works
         height: "100vh",
         overflow: "hidden",
@@ -153,6 +154,7 @@ const styles = theme => ({
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
         }),
+        background: theme.palette.background.default
     },
       drawerPaperClose: {
         overflow: 'hidden',
@@ -173,6 +175,9 @@ const styles = theme => ({
        height: 24,
        textAlign: "center"
     },
+    selected: {
+        background: "red"
+    }
   })
 
 class ComplianceDropDown extends React.Component{
@@ -206,8 +211,8 @@ class ComplianceDropDown extends React.Component{
                 <Collapse in={isSideDrawerExpanded&&this.state.open} timeout="auto" unmountOnExit>
                     <div style={{paddingLeft: 16}}>
                         {
-                            projectsArray&&projectsArray.map(i=>(
-                                <Link to={`/compliance-workspace/${i.projectId}`}>
+                            projectsArray&&projectsArray.map((i,j)=>(
+                                <Link key={j} to={`/compliance-workspace/${i.projectId}`}>
                                     <ListItem button dense>
                                         <ListItemText primary={cropToMax(i.title)} />
                                     </ListItem>
@@ -231,38 +236,68 @@ const withProjects = (state) => {
 
 const ComplianceDropDownWithStore = connect(withProjects)(ComplianceDropDown)
 
+const SideBarItem = (props) => {
+    const { to, disabled, icon, primary, secondary, children, beta, dense } = props
+    return (
+        disabled?
+            <ListItem button dense={dense} disabled>
+                <ListItemIcon>
+                    {icon}
+                </ListItemIcon>
+                <ListItemText inset primary={primary} />
+                {children}
+                {beta&&<Button color="secondary" size="small">BETA</Button>}
+            </ListItem>
+        :<Link to={to}>
+            <ListItem button dense={dense}>
+                <ListItemIcon>
+                    {icon}
+                </ListItemIcon>
+                <ListItemText inset primary={primary} />
+                {children}
+                {beta&&<Button color="secondary" size="small">BETA</Button>}
+            </ListItem>
+        </Link>
+    )
+}
+
 const SideDrawerToggleContainer = (props) => {
     const { classes, isSideDrawerExpanded, width, isFullScreen } = props
     const sidebarList = (
         <div className={classes.sidebarList}>
-            <List
-            >
-                <Link to="/home">
-                    <ListItem button>
-                            <ListItemIcon>
-                                <HomeIcon />
-                            </ListItemIcon>
-                            <ListItemText inset primary="Home" />
-                    </ListItem>
-                </Link>
+            <List>
+                <SideBarItem 
+                    to="/home"
+                    icon={<HomeIcon />}
+                    primary="Home"
+                    />
                 <ComplianceDropDownWithStore />
-                <Link to="/team">
-                    <ListItem button>
-                            <ListItemIcon>
-                            <GroupIcon />
-                            </ListItemIcon>
-                            <ListItemText inset primary="Team" />
-                    </ListItem>
-                </Link>
-                <Link to="/help">
-                    <ListItem button>
-                            <ListItemIcon>
-                                <HelpIcon />
-                            </ListItemIcon>
-                            <ListItemText inset primary="Help and FAQ" />
-                    </ListItem>
-                </Link>
+                <SideBarItem 
+                    to="/team"
+                    icon={<GroupIcon />}
+                    primary="Team"
+                    />
+                <SideBarItem 
+                    to="/help"
+                    icon={<HelpIcon />}
+                    primary="Help and FAQ"
+                    />
                 <Divider className={classes.divider}/>
+                <SideBarItem 
+                    to="/search"
+                    icon={<StorageIcon />}
+                    primary="Search"
+                    beta
+                    dense
+                    />
+                <SideBarItem 
+                    disabled
+                    to="/watchlist"
+                    icon={<BookmarksIcon  />}
+                    primary="My Searches"
+                    beta
+                    dense
+                    />
                 {/* 
                     <ListItem button disabled>
                         <ListItemIcon>
@@ -306,8 +341,7 @@ const SideDrawerToggleContainer = (props) => {
                 <ListItem button disabled>
                     <ListItemIcon><DraftsIcon /></ListItemIcon>
                     <ListItemText primary="Your Mail List" />
-                </ListItem> */}
-                {/*
+                </ListItem> 
                 <Link to="/search/">
                     <ListItem button>
                         <ListItemIcon>
